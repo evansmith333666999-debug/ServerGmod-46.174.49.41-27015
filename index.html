@@ -94,7 +94,7 @@
 
         .title {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(2.2rem, 5vw, 4rem);   /* Уменьшено: было 3rem..7rem */
+            font-size: clamp(2.2rem, 5vw, 4rem);
             font-weight: 900;
             color: var(--gold-light);
             text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
@@ -137,129 +137,83 @@
             font-size: 1.25rem;
             line-height: 1.7;
             font-weight: 300;
-            margin-bottom: 0;
+            margin-bottom: 1.5rem;
             text-align: justify;
+        }
+
+        /* ========== Таймер (прогресс-полоса) ========== */
+        .block-timer {
+            margin-top: 1rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            transition: width linear;
         }
 
         /* ========== Анимации ========== */
         @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-40px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(40px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         /* ========== Адаптивность по ширине ========== */
         @media (max-width: 1366px) {
-            .content {
-                padding: 3rem 2rem;
-            }
-            .title {
-                font-size: clamp(2rem, 4.5vw, 3.5rem);   /* Уменьшено */
-            }
-            .subtitle {
-                font-size: clamp(0.9rem, 2vw, 1.6rem);
-            }
-            .info-panel {
-                max-width: 800px;
-                padding: 2rem 2.5rem;
-            }
-            #project-description {
-                font-size: 1.1rem;
-            }
+            .content { padding: 3rem 2rem; }
+            .title { font-size: clamp(2rem, 4.5vw, 3.5rem); }
+            .subtitle { font-size: clamp(0.9rem, 2vw, 1.6rem); }
+            .info-panel { max-width: 800px; padding: 2rem 2.5rem; }
+            #project-description { font-size: 1.1rem; }
         }
 
         @media (max-width: 768px) {
-            .content {
-                padding: 2rem 1rem;
-            }
-            .title {
-                font-size: 2rem;                        /* Уменьшено */
-            }
-            .subtitle {
-                font-size: 1rem;
-            }
-            .info-panel {
-                padding: 1.5rem 1.2rem;
-            }
-            #project-description {
-                font-size: 0.95rem;
-                text-align: left;
-            }
+            .content { padding: 2rem 1rem; }
+            .title { font-size: 2rem; }
+            .subtitle { font-size: 1rem; }
+            .info-panel { padding: 1.5rem 1.2rem; }
+            #project-description { font-size: 0.95rem; text-align: left; }
         }
 
         /* ========== Адаптивность по высоте ========== */
         @media (max-height: 850px) {
-            .content {
-                padding: 2.5rem 2rem;
-            }
-            .title {
-                font-size: clamp(2rem, 5vw, 3.5rem);    /* Уменьшено */
-                margin-bottom: 0.5rem;
-            }
-            .subtitle {
-                font-size: clamp(0.9rem, 2vw, 1.5rem);
-            }
-            .info-panel {
-                padding: 1.8rem 2rem;
-                max-width: 800px;
-            }
-            .info-text h2 {
-                font-size: 1.6rem;
-                margin-bottom: 0.5rem;
-            }
-            #project-description {
-                font-size: 1rem;
-                line-height: 1.5;
-            }
+            .content { padding: 2.5rem 2rem; }
+            .title { font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 0.5rem; }
+            .subtitle { font-size: clamp(0.9rem, 2vw, 1.5rem); }
+            .info-panel { padding: 1.8rem 2rem; max-width: 800px; }
+            .info-text h2 { font-size: 1.6rem; margin-bottom: 0.5rem; }
+            #project-description { font-size: 1rem; line-height: 1.5; }
+            .block-timer { margin-top: 0.5rem; }
         }
 
         @media (max-height: 700px) {
-            .content {
-                padding: 2rem 1.5rem;
-            }
-            .title {
-                font-size: clamp(1.6rem, 4vw, 2.8rem);  /* Уменьшено */
-                margin-bottom: 0.4rem;
-            }
-            .subtitle {
-                font-size: clamp(0.8rem, 1.8vw, 1.2rem);
-                letter-spacing: 0.1em;
-            }
-            .info-panel {
-                padding: 1.2rem 1.5rem;
-            }
-            .info-text h2 {
-                font-size: 1.4rem;
-                margin-bottom: 0.4rem;
-            }
-            #project-description {
-                font-size: 0.9rem;
-                line-height: 1.4;
-            }
+            .content { padding: 2rem 1.5rem; }
+            .title { font-size: clamp(1.6rem, 4vw, 2.8rem); margin-bottom: 0.4rem; }
+            .subtitle { font-size: clamp(0.8rem, 1.8vw, 1.2rem); letter-spacing: 0.1em; }
+            .info-panel { padding: 1.2rem 1.5rem; }
+            .info-text h2 { font-size: 1.4rem; margin-bottom: 0.4rem; }
+            #project-description { font-size: 0.9rem; line-height: 1.4; }
+            .block-timer { margin-top: 0.3rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Фоновая музыка (тихо) -->
-    <audio id="bg-music" autoplay loop>
-        <source src="music.mp3" type="audio/mpeg">
+    <!-- Фоновая музыка (случайная) -->
+    <audio id="bg-music" preload="auto">
         Ваш браузер не поддерживает аудио.
     </audio>
 
@@ -278,28 +232,89 @@
 
         <section class="info-panel">
             <div class="info-text">
-                <h2>О проекте</h2>
-                <p id="project-description">
-                    Добро пожаловать на Kingly — уникальный GMod Sandbox сервер, где каждый игрок может построить своё королевство. 
-                    Мы объединяем лучшие традиции песочницы с глубокой системой развития и честной игрой.
-                    Станьте частью нашего мира, создавайте, торгуйте, воюйте — и, возможно, именно вы займёте трон.
-                </p>
+                <h2 id="info-title">Загрузка...</h2>
+                <p id="project-description">Загрузка информации...</p>
+                <div class="block-timer">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="timer-fill"></div>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
 
     <script>
-        // ========== Настройки ==========
-        const IMAGE_COUNT = 8;           // Количество изображений (1.jpg .. 13.jpg)
-        const SLIDE_INTERVAL = 7000;      // 7 секунд
-        const descriptionText = document.getElementById('project-description').innerText;
+        // ============================================================
+        // 🔧 НАСТРОЙКИ ЗВУКА И ГОЛОСА
+        // ============================================================
 
-        // ========== Создание слайдов ==========
+        const VOICE_VOLUME = 0.3;
+        const VOICE_RATE = 0.95;
+        const VOICE_PITCH = 1;
+        const PREFERRED_VOICE_NAMES = [
+            'Google русский',
+            'Google Russian',
+            'Yandex Russian Female',
+            'Yandex Russian',
+            'Microsoft Irina',
+            'Microsoft Pavel',
+            'Milena',
+            'Yuri',
+            'Russian',
+            'русский'
+        ];
+        const MUSIC_VOLUME = 0.2;
+        const MUSIC_TRACKS_COUNT = 20; // Количество треков в папке music_fon (например, от 1.mp3 до 7.mp3)
+
+        // ============================================================
+        // ⏱️ НАСТРОЙКИ ТАЙМЕРА И СМЕНЫ БЛОКОВ
+        // ============================================================
+
+        const READING_SPEED_CHARS_PER_SECOND = 12; // скорость чтения (символов в секунду)
+        const MIN_BLOCK_DISPLAY_TIME = 5000;      // минимальное время показа блока (мс)
+        const PAUSE_BETWEEN_BLOCKS = 2000;        // пауза между блоками (мс)
+        const EXTRA_TIME_MS = 2000;               // дополнительное время для полосы (после ее окончания)
+
+        // ============================================================
+        // 📋 ИНФОРМАЦИОННЫЕ БЛОКИ
+        // ============================================================
+
+        const INFO_BLOCKS = [
+            {            
+                title: "👑Мы👑",
+                text: "Добро пожаловать на 👑Kingly👑 — уникальный GMod Sandbox сервер, где каждый игрок может построить своё королевство. Мы объединяем лучшие традиции песочницы с глубокой системой развития и честной игрой. Станьте частью нашего мира, создавайте, торгуйте, воюйте - и, возможно, именно вы станете королём сервера"
+            },
+            {
+                title: "Правила сервера",
+                text: "1. Запрещены читы и эксплойты. 2. Уважайте других игроков. 3. Не спамьте в чате. 4. Стройте в отведённых местах. Нарушители будут наказаны."
+            },
+            {
+                title: "Новости",
+                text: "На этой неделе мы обновили карту и добавили новые инструменты для строительства. Заходите и оцените!"
+            }
+        ];
+
+        // ============================================================
+        // Остальные настройки (обычно не трогайте)
+        // ============================================================
+
+        const IMAGE_COUNT = 8;
+        const SLIDE_INTERVAL = 7000;
+
+        const infoTitleEl = document.getElementById('info-title');
+        const projectDescriptionEl = document.getElementById('project-description');
         const slideshow = document.getElementById('slideshow');
+        const timerFill = document.getElementById('timer-fill');
+
         let slides = [];
         let currentSlide = 0;
         let slideInterval;
+        let currentBlockIndex = -1;
+        let blockTimerTimeout;
+        let isPaused = false;
+        let speechActive = false;
 
+        // ========== Создание слайдов ==========
         for (let i = 1; i <= IMAGE_COUNT; i++) {
             const slide = document.createElement('div');
             slide.className = 'slide';
@@ -309,7 +324,7 @@
             slides.push(slide);
         }
 
-        // ========== Функция перехода к слайду ==========
+        // ========== Функции слайдера ==========
         function goToSlide(index) {
             slides[currentSlide].classList.remove('active');
             currentSlide = (index + slides.length) % slides.length;
@@ -320,7 +335,6 @@
             goToSlide(currentSlide + 1);
         }
 
-        // ========== Автопрокрутка ==========
         function startSlideShow() {
             slideInterval = setInterval(nextSlide, SLIDE_INTERVAL);
         }
@@ -329,44 +343,146 @@
             clearInterval(slideInterval);
         }
 
-        // ========== Голосовое озвучивание ==========
-        function speakDescription() {
-            if (!('speechSynthesis' in window)) return;
-            window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(descriptionText);
-            utterance.lang = 'ru-RU';
-            utterance.rate = 0.95;
-            utterance.pitch = 1;
-            utterance.volume = 1;
-            const voices = window.speechSynthesis.getVoices();
-            const russianVoice = voices.find(voice => voice.lang.startsWith('ru'));
-            if (russianVoice) utterance.voice = russianVoice;
-            window.speechSynthesis.speak(utterance);
+        // ========== Работа с информационными блоками ==========
+        function showRandomBlock() {
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * INFO_BLOCKS.length);
+            } while (INFO_BLOCKS.length > 1 && newIndex === currentBlockIndex);
+            currentBlockIndex = newIndex;
+            const block = INFO_BLOCKS[currentBlockIndex];
+            infoTitleEl.textContent = block.title;
+            projectDescriptionEl.textContent = block.text;
+
+            // 1. Считаем чистое время движения полосы (базовое время на чтение)
+            const readingTimeMs = (block.text.length / READING_SPEED_CHARS_PER_SECOND) * 1000;
+            const barAnimationTime = Math.max(readingTimeMs, MIN_BLOCK_DISPLAY_TIME);
+
+            // 2. Общее время показа: когда полоса исчезнет, даем еще EXTRA_TIME_MS на дочитывание
+            const totalDisplayTime = barAnimationTime + EXTRA_TIME_MS;
+
+            // 3. Запускаем визуальный прогресс-бар СТРОГО на время barAnimationTime
+            startProgressBar(barAnimationTime);
+
+            // 4. Запускаем озвучку (работает параллельно)
+            speakCurrentBlock();
+
+            // 5. Таймер переключения слайда учитывает и движение полосы, и задержку в конце
+            clearTimeout(blockTimerTimeout);
+            blockTimerTimeout = setTimeout(() => {
+                onBlockTimeout();
+            }, totalDisplayTime);
         }
 
-        // ========== Запуск музыки ==========
+        function startProgressBar(duration) {
+            timerFill.style.transition = 'none';
+            timerFill.style.width = '100%';
+
+            // Принудительная перерисовка DOM (reflow)
+            void timerFill.offsetWidth;
+
+            timerFill.style.transition = `width ${duration}ms linear`;
+            timerFill.style.width = '0%';
+        }
+
+        function onBlockTimeout() {
+            // Глушим речь, если она еще идет
+            window.speechSynthesis.cancel();
+            speechActive = false;
+
+            // Выжидаем паузу перед показом следующего текста (полоса при этом уже на 0%)
+            clearTimeout(blockTimerTimeout);
+            blockTimerTimeout = setTimeout(() => {
+                showRandomBlock();
+            }, PAUSE_BETWEEN_BLOCKS);
+        }
+
+        // ========== Голосовое озвучивание ==========
+        function speakCurrentBlock() {
+            if (!('speechSynthesis' in window)) {
+                speechActive = false;
+                return;
+            }
+
+            const block = INFO_BLOCKS[currentBlockIndex];
+            const utterance = new SpeechSynthesisUtterance(block.text);
+            utterance.lang = 'ru-RU';
+            utterance.rate = VOICE_RATE;
+            utterance.pitch = VOICE_PITCH;
+            utterance.volume = VOICE_VOLUME;
+
+            // Выбор голоса
+            const voices = window.speechSynthesis.getVoices();
+            if (voices.length > 0) {
+                let selectedVoice = null;
+                for (const preferredName of PREFERRED_VOICE_NAMES) {
+                    selectedVoice = voices.find(voice => voice.name === preferredName);
+                    if (selectedVoice) break;
+                }
+                if (!selectedVoice) {
+                    selectedVoice = voices.find(voice => voice.lang.startsWith('ru'));
+                }
+                if (selectedVoice) {
+                    utterance.voice = selectedVoice;
+                }
+            }
+
+            // Убираем onend для смены блоков, так как CEF в GMod нестабилен
+            utterance.onstart = () => { speechActive = true; };
+            utterance.onerror = (e) => {
+                console.warn('Ошибка синтеза речи:', e);
+                speechActive = false;
+            };
+
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+        }
+        
+        // ========== Запуск случайной музыки ==========
+        let isMusicSet = false;
+
         function playMusic() {
             const music = document.getElementById('bg-music');
-            music.volume = 0.2;
-            music.play().catch(() => {});
+            music.volume = MUSIC_VOLUME;
+
+            // Если трек еще не выбран — выбираем случайный
+            if (!isMusicSet) {
+                const randomTrack = Math.floor(Math.random() * MUSIC_TRACKS_COUNT) + 1;
+                
+                music.src = `music_fon/${randomTrack}.mp3`;
+                music.load(); // Принудительно заставляем браузер начать буферизацию трека
+                isMusicSet = true;
+                
+                // Когда песня заканчивается, сбрасываем флаг и запускаем новую
+                music.onended = () => {
+                    isMusicSet = false;
+                    playMusic();
+                };
+            }
+
+            // Пытаемся запустить музыку
+            const playPromise = music.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {
+                    // Браузер ждет клика игрока для разблокировки звука
+                });
+            }
         }
 
         // ========== Проверка запуска озвучки ==========
         let speechStarted = false;
+
         function tryAutoSpeak() {
-            speakDescription();
-            setTimeout(() => {
-                if (window.speechSynthesis.speaking) {
-                    speechStarted = true;
-                }
-            }, 500);
+            if ('speechSynthesis' in window && !speechStarted) {
+                speechStarted = true;
+                speakCurrentBlock();
+            }
         }
 
-        // ========== Обработчик первого взаимодействия ==========
         function onFirstInteraction() {
             if (!speechStarted) {
-                speakDescription();
                 speechStarted = true;
+                speakCurrentBlock();
             }
             playMusic();
             window.removeEventListener('click', onFirstInteraction);
@@ -376,11 +492,12 @@
 
         // ========== Инициализация ==========
         window.addEventListener('load', () => {
+            showRandomBlock();
             tryAutoSpeak();
             playMusic();
 
             setTimeout(() => {
-                if (!window.speechSynthesis.speaking) {
+                if (!('speechSynthesis' in window) || !window.speechSynthesis.speaking) {
                     window.addEventListener('click', onFirstInteraction);
                     window.addEventListener('keydown', onFirstInteraction);
                     window.addEventListener('touchstart', onFirstInteraction);
@@ -388,8 +505,14 @@
             }, 3000);
 
             const infoPanel = document.querySelector('.info-panel');
-            infoPanel.addEventListener('mouseenter', stopSlideShow);
-            infoPanel.addEventListener('mouseleave', startSlideShow);
+            infoPanel.addEventListener('mouseenter', () => {
+                stopSlideShow();
+                isPaused = true;
+            });
+            infoPanel.addEventListener('mouseleave', () => {
+                startSlideShow();
+                isPaused = false;
+            });
 
             startSlideShow();
         });
