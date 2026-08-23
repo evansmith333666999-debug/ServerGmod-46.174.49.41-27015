@@ -290,7 +290,7 @@
 
     <script>
         // ========== Настройки ==========
-        const IMAGE_COUNT = 7;           // Количество изображений (1.jpg .. 13.jpg)
+        const IMAGE_COUNT = 8;           // Количество изображений (1.jpg .. 7.jpg)
         const SLIDE_INTERVAL = 7000;      // 7 секунд
         const descriptionText = document.getElementById('project-description').innerText;
 
@@ -303,7 +303,7 @@
         for (let i = 1; i <= IMAGE_COUNT; i++) {
             const slide = document.createElement('div');
             slide.className = 'slide';
-            slide.style.backgroundImage = `url('img/${i}.jpg')`;
+            slide.style.backgroundImage = `url('img/fon/${i}.jpg')`;   // <-- изменён путь
             if (i === 1) slide.classList.add('active');
             slideshow.appendChild(slide);
             slides.push(slide);
