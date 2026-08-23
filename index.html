@@ -94,7 +94,7 @@
 
         .title {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(2.2rem, 5vw, 4rem);   /* Уменьшено: было 3rem..7rem */
+            font-size: clamp(2.2rem, 5vw, 4rem);
             font-weight: 900;
             color: var(--gold-light);
             text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
@@ -143,115 +143,49 @@
 
         /* ========== Анимации ========== */
         @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-40px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(40px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         /* ========== Адаптивность по ширине ========== */
         @media (max-width: 1366px) {
-            .content {
-                padding: 3rem 2rem;
-            }
-            .title {
-                font-size: clamp(2rem, 4.5vw, 3.5rem);   /* Уменьшено */
-            }
-            .subtitle {
-                font-size: clamp(0.9rem, 2vw, 1.6rem);
-            }
-            .info-panel {
-                max-width: 800px;
-                padding: 2rem 2.5rem;
-            }
-            #project-description {
-                font-size: 1.1rem;
-            }
+            .content { padding: 3rem 2rem; }
+            .title { font-size: clamp(2rem, 4.5vw, 3.5rem); }
+            .subtitle { font-size: clamp(0.9rem, 2vw, 1.6rem); }
+            .info-panel { max-width: 800px; padding: 2rem 2.5rem; }
+            #project-description { font-size: 1.1rem; }
         }
 
         @media (max-width: 768px) {
-            .content {
-                padding: 2rem 1rem;
-            }
-            .title {
-                font-size: 2rem;                        /* Уменьшено */
-            }
-            .subtitle {
-                font-size: 1rem;
-            }
-            .info-panel {
-                padding: 1.5rem 1.2rem;
-            }
-            #project-description {
-                font-size: 0.95rem;
-                text-align: left;
-            }
+            .content { padding: 2rem 1rem; }
+            .title { font-size: 2rem; }
+            .subtitle { font-size: 1rem; }
+            .info-panel { padding: 1.5rem 1.2rem; }
+            #project-description { font-size: 0.95rem; text-align: left; }
         }
 
         /* ========== Адаптивность по высоте ========== */
         @media (max-height: 850px) {
-            .content {
-                padding: 2.5rem 2rem;
-            }
-            .title {
-                font-size: clamp(2rem, 5vw, 3.5rem);    /* Уменьшено */
-                margin-bottom: 0.5rem;
-            }
-            .subtitle {
-                font-size: clamp(0.9rem, 2vw, 1.5rem);
-            }
-            .info-panel {
-                padding: 1.8rem 2rem;
-                max-width: 800px;
-            }
-            .info-text h2 {
-                font-size: 1.6rem;
-                margin-bottom: 0.5rem;
-            }
-            #project-description {
-                font-size: 1rem;
-                line-height: 1.5;
-            }
+            .content { padding: 2.5rem 2rem; }
+            .title { font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 0.5rem; }
+            .subtitle { font-size: clamp(0.9rem, 2vw, 1.5rem); }
+            .info-panel { padding: 1.8rem 2rem; max-width: 800px; }
+            .info-text h2 { font-size: 1.6rem; margin-bottom: 0.5rem; }
+            #project-description { font-size: 1rem; line-height: 1.5; }
         }
 
         @media (max-height: 700px) {
-            .content {
-                padding: 2rem 1.5rem;
-            }
-            .title {
-                font-size: clamp(1.6rem, 4vw, 2.8rem);  /* Уменьшено */
-                margin-bottom: 0.4rem;
-            }
-            .subtitle {
-                font-size: clamp(0.8rem, 1.8vw, 1.2rem);
-                letter-spacing: 0.1em;
-            }
-            .info-panel {
-                padding: 1.2rem 1.5rem;
-            }
-            .info-text h2 {
-                font-size: 1.4rem;
-                margin-bottom: 0.4rem;
-            }
-            #project-description {
-                font-size: 0.9rem;
-                line-height: 1.4;
-            }
+            .content { padding: 2rem 1.5rem; }
+            .title { font-size: clamp(1.6rem, 4vw, 2.8rem); margin-bottom: 0.4rem; }
+            .subtitle { font-size: clamp(0.8rem, 1.8vw, 1.2rem); letter-spacing: 0.1em; }
+            .info-panel { padding: 1.2rem 1.5rem; }
+            .info-text h2 { font-size: 1.4rem; margin-bottom: 0.4rem; }
+            #project-description { font-size: 0.9rem; line-height: 1.4; }
         }
     </style>
 </head>
@@ -289,8 +223,36 @@
     </main>
 
     <script>
-        // ========== Настройки ==========
-        const IMAGE_COUNT = 8;           // Количество изображений (1.jpg .. 13.jpg)
+        // ============================================================
+        // 🔧 НАСТРОЙКИ ЗВУКА И ГОЛОСА (меняйте значения под себя)
+        // ============================================================
+
+        // Громкость озвучки (0 = тихо, 1 = максимум)
+        const VOICE_VOLUME = 0.8;          // ← понижено с 1 до 0.8 (можно уменьшить ещё, например 0.6)
+
+        // Скорость речи (1 = нормально, 0.9 = чуть медленнее, 1.1 = быстрее)
+        const VOICE_RATE = 0.95;
+
+        // Высота голоса (1 = нормально, 0.5 = ниже, 1.5 = выше)
+        const VOICE_PITCH = 1;
+
+        // 🎙️ Предпочитаемые голоса (можно указать несколько, система выберет первый доступный)
+        // Например: 'Microsoft Pavel', 'Google русский', 'Samantha', 'Milena'
+        const PREFERRED_VOICE_NAMES = [
+            'Yandex Russian',          // если есть
+            'Google русский',          // предпочитаемый
+            'Microsoft Pavel',         // запасной
+            'Milena'
+        ];
+
+        // Громкость фоновой музыки (0 = тихо, 1 = максимум)
+        const MUSIC_VOLUME = 0.05;        // ← очень тихо (можно поставить 0.1, 0.15 и т.д.)
+
+        // ============================================================
+        // Остальные настройки (обычно не трогайте)
+        // ============================================================
+
+        const IMAGE_COUNT = 8;           // Количество изображений (1.jpg .. 8.jpg)
         const SLIDE_INTERVAL = 7000;      // 7 секунд
         const descriptionText = document.getElementById('project-description').innerText;
 
@@ -335,19 +297,35 @@
             window.speechSynthesis.cancel();
             const utterance = new SpeechSynthesisUtterance(descriptionText);
             utterance.lang = 'ru-RU';
-            utterance.rate = 0.95;
-            utterance.pitch = 1;
-            utterance.volume = 1;
+            utterance.rate = VOICE_RATE;
+            utterance.pitch = VOICE_PITCH;
+            utterance.volume = VOICE_VOLUME;   // <- применяем настройку громкости
+
+            // Выбор голоса
             const voices = window.speechSynthesis.getVoices();
-            const russianVoice = voices.find(voice => voice.lang.startsWith('ru'));
-            if (russianVoice) utterance.voice = russianVoice;
+            if (voices.length > 0) {
+                // Сначала ищем голос из списка предпочтений
+                let selectedVoice = null;
+                for (const preferredName of PREFERRED_VOICE_NAMES) {
+                    selectedVoice = voices.find(voice => voice.name === preferredName);
+                    if (selectedVoice) break;
+                }
+                // Если не нашли, берём первый русский голос
+                if (!selectedVoice) {
+                    selectedVoice = voices.find(voice => voice.lang.startsWith('ru'));
+                }
+                // Если нашли — устанавливаем
+                if (selectedVoice) {
+                    utterance.voice = selectedVoice;
+                }
+            }
             window.speechSynthesis.speak(utterance);
         }
 
         // ========== Запуск музыки ==========
         function playMusic() {
             const music = document.getElementById('bg-music');
-            music.volume = 0.2;
+            music.volume = MUSIC_VOLUME;   // <- применяем настройку громкости
             music.play().catch(() => {});
         }
 
