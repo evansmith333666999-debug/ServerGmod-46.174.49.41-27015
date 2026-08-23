@@ -70,7 +70,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(ellipse at center, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.55) 100%);
+            background: radial-gradient(ellipse at center, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.0) 100%);
             z-index: -1;
         }
 
@@ -510,6 +510,7 @@
         
         // ========== Запуск случайной музыки ==========
         let isMusicSet = false;
+        let currentTrack = 0; // Переменная для запоминания текущего трека
 
         function playMusic() {
             const music = document.getElementById('bg-music');
@@ -517,7 +518,14 @@
 
             // Если трек еще не выбран — выбираем случайный
             if (!isMusicSet) {
-                const randomTrack = Math.floor(Math.random() * MUSIC_TRACKS_COUNT) + 1;
+                let randomTrack;
+                
+                // Выбираем случайный трек, исключая тот, который только что играл
+                do {
+                    randomTrack = Math.floor(Math.random() * MUSIC_TRACKS_COUNT) + 1;
+                } while (MUSIC_TRACKS_COUNT > 1 && randomTrack === currentTrack);
+                
+                currentTrack = randomTrack; // Запоминаем выбранный трек
                 
                 music.src = `music_fon/${randomTrack}.mp3`;
                 music.load(); // Принудительно заставляем браузер начать буферизацию трека
