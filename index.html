@@ -1,599 +1,82 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kingly — Наше королевство</title>
-
-    <!-- Шрифты -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-
-    <style>
-        /* ========== Базовые стили ========== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --gold: #d4af37;
-            --gold-light: #f0d060;
-            --gold-dark: #a8832b;
-            --bg-dark: rgba(0, 0, 0, 0.45);
-            --text-light: #f5f0e6;
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-        }
-
-        body {
-            font-family: 'Montserrat', sans-serif;
-            color: var(--text-light);
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
-            background: #000;
-            user-select: none;
-        }
-
-        /* ========== Слайды ========== */
-        .slideshow {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-        }
-
-        .slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: 100% 100%;
-            background-position: center;
-            opacity: 0;
-            transition: opacity 1.5s ease-in-out;
-        }
-
-        .slide.active {
-            opacity: 1;
-        }
-
-        /* ========== Затемнение (осветлено) ========== */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(ellipse at center, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.0) 100%);
-            z-index: -1;
-        }
-
-        /* ========== Контент ========== */
-        .content {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            height: 100%;
-            padding: 4rem 3rem;
-            text-align: center;
-        }
-
-        /* ========== Заголовок ========== */
-        .header {
-            animation: fadeInDown 1.5s ease-out;
-        }
-
-        .title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.2rem, 5vw, 4rem);
-            font-weight: 900;
-            color: var(--gold-light);
-            text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
-            letter-spacing: 0.05em;
-            margin-bottom: 0.8rem;
-        }
-
-        .subtitle {
-            font-size: clamp(1rem, 2.5vw, 2.2rem);
-            font-weight: 300;
-            color: var(--text-light);
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.6);
-        }
-
-        /* ========== Нижняя панель ========== */
-        .info-panel {
-            max-width: 900px;
-            width: 100%;
-            background: var(--bg-dark);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(212, 175, 55, 0.35);
-            border-radius: 16px;
-            padding: 2.5rem 3rem;
-            box-shadow: var(--shadow);
-            animation: fadeInUp 1.5s ease-out 0.3s both;
-        }
-
-        .info-text h2 {
-            font-family: 'Playfair Display', serif;
-            color: var(--gold);
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-
-        #project-description {
-            font-size: 1.25rem;
-            line-height: 1.7;
-            font-weight: 300;
-            margin-bottom: 1.5rem;
-            text-align: justify;
-        }
-
-        /* ========== Таймер (прогресс-полоса) ========== */
-        .block-timer {
-            margin-top: 1rem;
-        }
-
-        .progress-bar {
-            height: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 100%;
-            background: linear-gradient(90deg, var(--gold), var(--gold-light));
-            transition: width linear;
-        }
-
-        /* ========== Анимации ========== */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-40px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ========== Адаптивность по ширине ========== */
-        @media (max-width: 1366px) {
-            .content { padding: 3rem 2rem; }
-            .title { font-size: clamp(2rem, 4.5vw, 3.5rem); }
-            .subtitle { font-size: clamp(0.9rem, 2vw, 1.6rem); }
-            .info-panel { max-width: 800px; padding: 2rem 2.5rem; }
-            #project-description { font-size: 1.1rem; }
-        }
-
-        @media (max-width: 768px) {
-            .content { padding: 2rem 1rem; }
-            .title { font-size: 2rem; }
-            .subtitle { font-size: 1rem; }
-            .info-panel { padding: 1.5rem 1.2rem; }
-            #project-description { font-size: 0.95rem; text-align: left; }
-        }
-
-        /* ========== Адаптивность по высоте ========== */
-        @media (max-height: 850px) {
-            .content { padding: 2.5rem 2rem; }
-            .title { font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 0.5rem; }
-            .subtitle { font-size: clamp(0.9rem, 2vw, 1.5rem); }
-            .info-panel { padding: 1.8rem 2rem; max-width: 800px; }
-            .info-text h2 { font-size: 1.6rem; margin-bottom: 0.5rem; }
-            #project-description { font-size: 1rem; line-height: 1.5; }
-            .block-timer { margin-top: 0.5rem; }
-        }
-
-        @media (max-height: 700px) {
-            .content { padding: 2rem 1.5rem; }
-            .title { font-size: clamp(1.6rem, 4vw, 2.8rem); margin-bottom: 0.4rem; }
-            .subtitle { font-size: clamp(0.8rem, 1.8vw, 1.2rem); letter-spacing: 0.1em; }
-            .info-panel { padding: 1.2rem 1.5rem; }
-            .info-text h2 { font-size: 1.4rem; margin-bottom: 0.4rem; }
-            #project-description { font-size: 0.9rem; line-height: 1.4; }
-            .block-timer { margin-top: 0.3rem; }
-        }
-    </style>
-</head>
-<body>
-
-    <!-- Фоновая музыка (случайная) -->
-    <audio id="bg-music" preload="auto">
-        Ваш браузер не поддерживает аудио.
-    </audio>
-
-    <!-- Слайды -->
-    <div class="slideshow" id="slideshow"></div>
-
-    <!-- Затемнение -->
-    <div class="overlay"></div>
-
-    <!-- Контент -->
-    <main class="content">
-        <header class="header">
-            <h1 class="title">👑 KINGLY 👑</h1>
-            <p class="subtitle">Создано нами, возглавляется вами</p>
-        </header>
-
-        <section class="info-panel">
-            <div class="info-text">
-                <h2 id="info-title">Загрузка...</h2>
-                <p id="project-description">Загрузка информации...</p>
-                <div class="block-timer">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="timer-fill"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <script>
-        // ============================================================
-        // 🔧 НАСТРОЙКИ ЗВУКА И ГОЛОСА
-        // ============================================================
-
-        const VOICE_VOLUME = 0.42;
-        const VOICE_RATE = 0.95;
-        const VOICE_PITCH = 1;
-        const PREFERRED_VOICE_NAMES = [
-            'Google русский',
-            'Google Russian',
-            'Yandex Russian Female',
-            'Yandex Russian',
-            'Microsoft Irina',
-            'Microsoft Pavel',
-            'Milena',
-            'Yuri',
-            'Russian',
-            'русский'
-        ];
-        const MUSIC_VOLUME = 0.15;
-        const MUSIC_TRACKS_COUNT = 20; // Количество треков в папке music_fon (например, от 1.mp3 до 7.mp3)
-
-        // ============================================================
-        // ⏱️ НАСТРОЙКИ ТАЙМЕРА И СМЕНЫ БЛОКОВ
-        // ============================================================
-
-        const READING_SPEED_CHARS_PER_SECOND = 12; // скорость чтения (символов в секунду)
-        const MIN_BLOCK_DISPLAY_TIME = 5000;      // минимальное время показа блока (мс)
-        const PAUSE_BETWEEN_BLOCKS = 2000;        // пауза между блоками (мс)
-        const EXTRA_TIME_MS = 2000;               // дополнительное время для полосы (после ее окончания)
-
-        // ============================================================
-        // 📋 ИНФОРМАЦИОННЫЕ БЛОКИ
-        // ============================================================
-
-        const INFO_BLOCKS = [
-            {            
-                title: "👑Мы👑",
-                text: "Добро пожаловать на 👑Kingly👑 — уникальный GMod Sandbox сервер, где каждый игрок может построить своё королевство. Мы объединяем лучшие традиции песочницы с глубокой системой развития и честной игрой. Станьте частью нашего мира, создавайте, торгуйте, воюйте - и, возможно, именно вы станете королём сервера"
-            },
-            {
-                title: "Настройка NPC(F4)",
-                text: "На нашем проекте предусмотрена гибкая система настройки NPC. Чтобы адаптировать их поведение под свои задачи, откройте меню на клавишу F4, перейдите в раздел «Настройки», а затем выберите пункт «NPC»."
-            },
-            {
-                title: "Фракции NPC",
-                text: "На нашем сервере доступна система фракций для NPC. Воспользуйтесь ей, чтобы создать свою уникальную группировку. В каждую фракцию можно добавить отдельный класс бойцов, которые будут следовать за вами и уничтожать ваших противников."
-            },
-            {
-                title: "Точка возрождения",
-                text: "В меню энтити доступен полезный инструмент — SpawnPoint. Установите его, если не хотите тратить время на возвращение к нужной локации. После смерти он автоматически и безопасно телепортирует вас обратно. Обратите внимание, что у размещенного SpawnPoint есть собственные гибкие настройки. Пользуйтесь с комфортом!"
-            },
-            {
-                title: "Спавнер NPC",
-                text: "На сервере доступен полезный инструмент — SpawnerNPC. В нем вы можете выбрать любого персонажа и разместить его в мире. Используйте эту функцию для создания надежной защиты вашей базы или для призыва атакующих противников. Обратите внимание: все NPC, созданные через данный спавнер, автоматически присоединяются к вашей текущей фракции."
-            },
-            {
-                title: "Амуниция",
-                text: "В меню энтити доступна специальная амуниция. В ней вы можете выбрать любое желаемое оружие, которое будет выдаваться при её открытии. Настройте свой арсенал, запаситесь патронами, заберите пушки и смело отправляйтесь в бой!"
-            },
-            {
-                title: "Дубликатор",
-                text: "Дубликатор — незаменимый инструмент, который доступен на нашем сервере. Обязательно сохраняйте с его помощью все свои постройки. Мы абсолютно уверены, что ваши архитектурные творения будут самыми лучшими!"
-            },
-            {
-                title: "Военная техника",
-                text: "Ну куда же без танков и самолетов? Даже если вы не умеете ими управлять, здесь вы быстро этому научитесь. Выбирайте боевую машину во вкладке энтити и смело идите в бой. В мире игры вы часто будете наблюдать зрелищные битвы между NPC на различной технике. Кстати, мой личный фаворит — самолет P-47D. И небольшой совет: чтобы переключить орудие, находясь внутри танка, просто покрутите колесико мыши."
-            },
-            {
-                title: "Разрушаемые постройки",
-                text: "На нашем сервере можно выдавать здоровье пропам, делая их разрушаемыми. Это открывает огромные возможности: стройте уязвимые базы, бросайте вызов другим игрокам, устраивайте масштабные рейды и наслаждайтесь зрелищем разлетающихся на кусочки укреплений. Если вам не хочется каждый раз использовать инструмент GIVE HP PROPS вручную, включите автоматическую выдачу здоровья при появлении предметов. Для этого откройте меню на клавишу F4, перейдите в раздел «Настройки» и выберите «HP PROPS»."
-            },
-            {
-                title: "Уникальные двери",
-                text: "На нашем сервере вы можете устанавливать потрясающие двери для своих построек. Откройте меню инструментов, найдите вкладку Door и создавайте самые красивые и полностью настраиваемые двери. Это идеальное и стильное решение для защиты вашей базы!"
-            },
-            {
-                title: "Система организаций",
-                text: "На сервере реализована система организаций. Создайте свою уникальную группировку и докажите всем, что она лучшая! Основание собственной организации потребует небольших вложений в виде Points, но это определенно того стоит. А если вы пока не готовы стать лидером, вы всегда можете вступить в ряды уже существующих объединений."
-            },
-            {
-                title: "Возможности организаций",
-                text: "В настройках организации можно включить специальную подсветку союзников, чтобы легко находить своих товарищей на расстоянии. Кроме того, вы можете получить уникальный ранг, созданный главой вашей группировки, или же настроить систему званий самостоятельно, если лидером являетесь вы."
-            },
-            {
-                title: "Магазин PointShop(F2)",
-                text: "Хотите выглядеть стильно и выделяться из толпы? Смело открывайте магазин PointShop нажатием на клавишу F2. Покупайте красивые аксессуары за заработанные поинты и покажите всем, насколько вы уникальны!"
-            },
-            {
-                title: "Автопарк сервера",
-                text: "На нашем сервере представлен огромный выбор уникального транспорта. Вас ждут скоростные гоночные автомобили, тяжелые грузовики и даже вместительные автобусы. Обязательно опробуйте каждый из них, ведь все модели по-своему прекрасны."
-            },
-            {
-                title: "Улучшение транспорта",
-                text: "Кстати о транспорте! Знаете ли вы, что его можно улучшать не только привычными ускорителями из меню инструментов? Попробуйте модифицировать свою технику с помощью специальных энтити. Загляните во вкладку LVS, чтобы найти уникальные модули, которые сделают вашу машину невероятно быстрой."
-            },
-            {
-                title: "Внутриигровое радио",
-                text: "Слышите эту отличную музыку? На сервере работает радио, которое создает потрясающую атмосферу. Хотите включить свои собственные треки, но не знаете как? Откройте справочник в меню на клавишу F4 — там находятся все инструкции и подробности по настройке."
-            },
-            {
-                title: "Справочник F4",
-                text: "Возникли вопросы по механикам сервера? Ответы на любые вопросы можно найти в главном меню, нажав клавишу F4. Просто загляните в раздел «Справочник», где собрана подробная и понятная информация обо всех возможностях нашего проекта."
-            },
-            {
-                title: "Группа в Steam",
-                text: "У нашего проекта есть официальная группа в Steam. В ней уже состоят многие игроки, но не хватает только вас! Обязательно присоединяйтесь к нашему сообществу. Ссылку на группу можно легко найти, открыв меню на клавишу F4 и перейдя во вкладку Steam."
-            }
-        ];
-
-        // ============================================================
-        // Остальные настройки (обычно не трогайте)
-        // ============================================================
-
-        const IMAGE_COUNT = 8;
-        const SLIDE_INTERVAL = 7000;
-
-        const infoTitleEl = document.getElementById('info-title');
-        const projectDescriptionEl = document.getElementById('project-description');
-        const slideshow = document.getElementById('slideshow');
-        const timerFill = document.getElementById('timer-fill');
-
-        let slides = [];
-        let currentSlide = 0;
-        let slideInterval;
-        let currentBlockIndex = -1;
-        let blockTimerTimeout;
-        let isPaused = false;
-        let speechActive = false;
-
-        // ========== Создание слайдов ==========
-        for (let i = 1; i <= IMAGE_COUNT; i++) {
-            const slide = document.createElement('div');
-            slide.className = 'slide';
-            slide.style.backgroundImage = `url('img/fon/${i}.jpg')`;
-            // Устанавливаем первый слайд (1.jpg) активным при загрузке
-            if (i === 1) slide.classList.add('active'); 
-            slideshow.appendChild(slide);
-            slides.push(slide);
-        }
-        
-        // Начальный индекс всегда 0 (соответствует 1.jpg)
-        currentSlide = 0;
-
-        // ========== Функции слайдера ==========
-        function goToSlide(index) {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = index;
-            slides[currentSlide].classList.add('active');
-        }
-
-        function nextSlide() {
-            let nextIndex;
-            // Выбираем случайный слайд, исключая текущий, чтобы картинки не повторялись подряд
-            do {
-                nextIndex = Math.floor(Math.random() * slides.length);
-            } while (slides.length > 1 && nextIndex === currentSlide);
-            
-            goToSlide(nextIndex);
-        }
-
-        function startSlideShow() {
-            slideInterval = setInterval(nextSlide, SLIDE_INTERVAL);
-        }
-
-        function stopSlideShow() {
-            clearInterval(slideInterval);
-        }
-
-        // ========== Работа с информационными блоками ==========
-        function showRandomBlock() {
-            let newIndex;
-            do {
-                newIndex = Math.floor(Math.random() * INFO_BLOCKS.length);
-            } while (INFO_BLOCKS.length > 1 && newIndex === currentBlockIndex);
-            currentBlockIndex = newIndex;
-            const block = INFO_BLOCKS[currentBlockIndex];
-            infoTitleEl.textContent = block.title;
-            projectDescriptionEl.textContent = block.text;
-
-            // 1. Считаем чистое время движения полосы (базовое время на чтение)
-            const readingTimeMs = (block.text.length / READING_SPEED_CHARS_PER_SECOND) * 1000;
-            const barAnimationTime = Math.max(readingTimeMs, MIN_BLOCK_DISPLAY_TIME);
-
-            // 2. Общее время показа: когда полоса исчезнет, даем еще EXTRA_TIME_MS на дочитывание
-            const totalDisplayTime = barAnimationTime + EXTRA_TIME_MS;
-
-            // 3. Запускаем визуальный прогресс-бар СТРОГО на время barAnimationTime
-            startProgressBar(barAnimationTime);
-
-            // 4. Запускаем озвучку (работает параллельно)
-            speakCurrentBlock();
-
-            // 5. Таймер переключения слайда учитывает и движение полосы, и задержку в конце
-            clearTimeout(blockTimerTimeout);
-            blockTimerTimeout = setTimeout(() => {
-                onBlockTimeout();
-            }, totalDisplayTime);
-        }
-
-        function startProgressBar(duration) {
-            timerFill.style.transition = 'none';
-            timerFill.style.width = '100%';
-
-            // Принудительная перерисовка DOM (reflow)
-            void timerFill.offsetWidth;
-
-            timerFill.style.transition = `width ${duration}ms linear`;
-            timerFill.style.width = '0%';
-        }
-
-        function onBlockTimeout() {
-            // Глушим речь, если она еще идет
-            window.speechSynthesis.cancel();
-            speechActive = false;
-
-            // Выжидаем паузу перед показом следующего текста (полоса при этом уже на 0%)
-            clearTimeout(blockTimerTimeout);
-            blockTimerTimeout = setTimeout(() => {
-                showRandomBlock();
-            }, PAUSE_BETWEEN_BLOCKS);
-        }
-
-        // ========== Голосовое озвучивание ==========
-        function speakCurrentBlock() {
-            if (!('speechSynthesis' in window)) {
-                speechActive = false;
-                return;
-            }
-
-            const block = INFO_BLOCKS[currentBlockIndex];
-            const utterance = new SpeechSynthesisUtterance(block.text);
-            utterance.lang = 'ru-RU';
-            utterance.rate = VOICE_RATE;
-            utterance.pitch = VOICE_PITCH;
-            utterance.volume = VOICE_VOLUME;
-
-            // Выбор голоса
-            const voices = window.speechSynthesis.getVoices();
-            if (voices.length > 0) {
-                let selectedVoice = null;
-                for (const preferredName of PREFERRED_VOICE_NAMES) {
-                    selectedVoice = voices.find(voice => voice.name === preferredName);
-                    if (selectedVoice) break;
-                }
-                if (!selectedVoice) {
-                    selectedVoice = voices.find(voice => voice.lang.startsWith('ru'));
-                }
-                if (selectedVoice) {
-                    utterance.voice = selectedVoice;
-                }
-            }
-
-            // Убираем onend для смены блоков, так как CEF в GMod нестабилен
-            utterance.onstart = () => { speechActive = true; };
-            utterance.onerror = (e) => {
-                console.warn('Ошибка синтеза речи:', e);
-                speechActive = false;
-            };
-
-            window.speechSynthesis.cancel();
-            window.speechSynthesis.speak(utterance);
-        }
-        
-        // ========== Запуск случайной музыки ==========
-        let isMusicSet = false;
-        let currentTrack = 0; // Переменная для запоминания текущего трека
-
-        function playMusic() {
-            const music = document.getElementById('bg-music');
-            music.volume = MUSIC_VOLUME;
-
-            // Если трек еще не выбран — выбираем случайный
-            if (!isMusicSet) {
-                let randomTrack;
-                
-                // Выбираем случайный трек, исключая тот, который только что играл
-                do {
-                    randomTrack = Math.floor(Math.random() * MUSIC_TRACKS_COUNT) + 1;
-                } while (MUSIC_TRACKS_COUNT > 1 && randomTrack === currentTrack);
-                
-                currentTrack = randomTrack; // Запоминаем выбранный трек
-                
-                music.src = `music_fon/${randomTrack}.mp3`;
-                music.load(); // Принудительно заставляем браузер начать буферизацию трека
-                isMusicSet = true;
-                
-                // Когда песня заканчивается, сбрасываем флаг и запускаем новую
-                music.onended = () => {
-                    isMusicSet = false;
-                    playMusic();
-                };
-            }
-
-            // Пытаемся запустить музыку
-            const playPromise = music.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(() => {
-                    // Браузер ждет клика игрока для разблокировки звука
-                });
-            }
-        }
-
-        // ========== Проверка запуска озвучки ==========
-        let speechStarted = false;
-
-        function tryAutoSpeak() {
-            if ('speechSynthesis' in window && !speechStarted) {
-                speechStarted = true;
-                speakCurrentBlock();
-            }
-        }
-
-        function onFirstInteraction() {
-            if (!speechStarted) {
-                speechStarted = true;
-                speakCurrentBlock();
-            }
-            playMusic();
-            window.removeEventListener('click', onFirstInteraction);
-            window.removeEventListener('keydown', onFirstInteraction);
-            window.removeEventListener('touchstart', onFirstInteraction);
-        }
-
-        // ========== Инициализация ==========
-        window.addEventListener('load', () => {
-            showRandomBlock();
-            tryAutoSpeak();
-            playMusic();
-
-            setTimeout(() => {
-                if (!('speechSynthesis' in window) || !window.speechSynthesis.speaking) {
-                    window.addEventListener('click', onFirstInteraction);
-                    window.addEventListener('keydown', onFirstInteraction);
-                    window.addEventListener('touchstart', onFirstInteraction);
-                }
-            }, 3000);
-
-            const infoPanel = document.querySelector('.info-panel');
-            infoPanel.addEventListener('mouseenter', () => {
-                stopSlideShow();
-                isPaused = true;
-            });
-            infoPanel.addEventListener('mouseleave', () => {
-                startSlideShow();
-                isPaused = false;
-            });
-
-            startSlideShow();
-        });
-    </script>
-</body>
-</html>
+<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Kingly — Наше королевство</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}:root{--g:#d4af37;--gl:#f0d060;--gd:#a8832b;--bg:rgba(0,0,0,.45);--tx:#f5f0e6;--sh:0 8px 32px rgba(0,0,0,.35)}body{font-family:'Montserrat',sans-serif;color:var(--tx);overflow:hidden;height:100vh;width:100vw;background:#000}.ss{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-2}.sl{position:absolute;top:0;left:0;width:100%;height:100%;background-size:100% 100%;background-position:center;opacity:0;transition:opacity 1.5s ease-in-out}.sl.a{opacity:1}.ov{position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at center,rgba(0,0,0,0) 0,rgba(0,0,0,0) 100%);z-index:-1}.ct{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:space-between;height:100%;padding:4rem 3rem;text-align:center}.hd{animation:fD 1.5s ease-out}.tl{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,5vw,4rem);font-weight:900;color:var(--gl);text-shadow:0 0 30px rgba(212,175,55,.5);letter-spacing:.05em;margin-bottom:.8rem}.st{font-size:clamp(1rem,2.5vw,2.2rem);font-weight:300;color:var(--tx);letter-spacing:.15em;text-transform:uppercase;text-shadow:0 2px 10px rgba(0,0,0,.6)}.ip{max-width:900px;width:100%;background:var(--bg);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(212,175,55,.35);border-radius:16px;padding:2.5rem 3rem;box-shadow:var(--sh);animation:fU 1.5s ease-out .3s both}.ip h2{font-family:'Playfair Display',serif;color:var(--g);font-size:2rem;margin-bottom:1rem;font-weight:700}#pd{font-size:1.25rem;line-height:1.7;font-weight:300;margin-bottom:1.5rem;text-align:justify}.bt{margin-top:1rem}.pb{height:8px;background:rgba(255,255,255,.2);border-radius:4px;overflow:hidden}.pf{height:100%;width:100%;background:linear-gradient(90deg,var(--g),var(--gl));transition:width linear}@keyframes fD{from{opacity:0;transform:translateY(-40px)}to{opacity:1;transform:translateY(0)}}@keyframes fU{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}@media(max-width:1366px){.ct{padding:3rem 2rem}.tl{font-size:clamp(2rem,4.5vw,3.5rem)}.st{font-size:clamp(.9rem,2vw,1.6rem)}.ip{max-width:800px;padding:2rem 2.5rem}#pd{font-size:1.1rem}}@media(max-width:768px){.ct{padding:2rem 1rem}.tl{font-size:2rem}.st{font-size:1rem}.ip{padding:1.5rem 1.2rem}#pd{font-size:.95rem;text-align:left}}@media(max-height:850px){.ct{padding:2.5rem 2rem}.tl{font-size:clamp(2rem,5vw,3.5rem);margin-bottom:.5rem}.st{font-size:clamp(.9rem,2vw,1.5rem)}.ip{padding:1.8rem 2rem;max-width:800px}.ip h2{font-size:1.6rem;margin-bottom:.5rem}#pd{font-size:1rem;line-height:1.5}.bt{margin-top:.5rem}}@media(max-height:700px){.ct{padding:2rem 1.5rem}.tl{font-size:clamp(1.6rem,4vw,2.8rem);margin-bottom:.4rem}.st{font-size:clamp(.8rem,1.8vw,1.2rem);letter-spacing:.1em}.ip{padding:1.2rem 1.5rem}.ip h2{font-size:1.4rem;margin-bottom:.4rem}#pd{font-size:.9rem;line-height:1.4}.bt{margin-top:.3rem}}</style></head><body><audio id="bm" preload="auto"></audio><div class="ss" id="ss"></div><div class="ov"></div><main class="ct"><header class="hd"><h1 class="tl">👑 KINGLY 👑</h1><p class="st">Создано нами, возглавляется вами</p></header><section class="ip"><div class="it"><h2 id="it">Загрузка...</h2><p id="pd">Загрузка информации...</p><div class="bt"><div class="pb"><div class="pf" id="tf"></div></div></div></div></section></main><script>document.addEventListener('contextmenu',e=>e.preventDefault());document.addEventListener('keydown',e=>{if(e.keyCode===123||(e.ctrlKey&&e.shiftKey&&(e.keyCode===73||e.keyCode===74))||(e.ctrlKey&&e.keyCode===85))e.preventDefault();});const _vV=0.1,_vR=0.95,_vP=1,_pVN=['Google русский','Google Russian','Yandex Russian Female','Yandex Russian','Microsoft Irina','Microsoft Pavel','Milena','Yuri','Russian','русский'],_mV=0.05,_mTC=20,_rS=12,_mBDT=5000,_pBB=2000,_eTM=2000;
+
+// =========================================================================
+// 📋 БЛОКИ ТЕКСТА (РЕДАКТИРОВАТЬ МОЖНО ТОЛЬКО ЗДЕСЬ)
+// =========================================================================
+const INFO_BLOCKS = [
+    {            
+        title: "👑Мы👑",
+        text: "Добро пожаловать на 👑Kingly👑 — уникальный GMod Sandbox сервер, где каждый игрок может построить своё королевство. Мы объединяем лучшие традиции песочницы с глубокой системой развития и честной игрой. Станьте частью нашего мира, создавайте, торгуйте, воюйте - и, возможно, именно вы станете королём сервера"
+    },
+    {
+        title: "Настройка NPC(F4)",
+        text: "На нашем проекте предусмотрена гибкая система настройки NPC. Чтобы адаптировать их поведение под свои задачи, откройте меню на клавишу F4, перейдите в раздел «Настройки», а затем выберите пункт «NPC»."
+    },
+    {
+        title: "Фракции NPC",
+        text: "На нашем сервере доступна система фракций для NPC. Воспользуйтесь ей, чтобы создать свою уникальную группировку. В каждую фракцию можно добавить отдельный класс бойцов, которые будут следовать за вами и уничтожать ваших противников."
+    },
+    {
+        title: "Точка возрождения",
+        text: "В меню энтити доступен полезный инструмент — SpawnPoint. Установите его, если не хотите тратить время на возвращение к нужной локации. После смерти он автоматически и безопасно телепортирует вас обратно. Обратите внимание, что у размещенного SpawnPoint есть собственные гибкие настройки. Пользуйтесь с комфортом!"
+    },
+    {
+        title: "Спавнер NPC",
+        text: "На сервере доступен полезный инструмент — SpawnerNPC. В нем вы можете выбрать любого персонажа и разместить его в мире. Используйте эту функцию для создания надежной защиты вашей базы или для призыва атакующих противников. Обратите внимание: все NPC, созданные через данный спавнер, автоматически присоединяются к вашей текущей фракции."
+    },
+    {
+        title: "Амуниция",
+        text: "В меню энтити доступна специальная амуниция. В ней вы можете выбрать любое желаемое оружие, которое будет выдаваться при её открытии. Настройте свой арсенал, запаситесь патронами, заберите пушки и смело отправляйтесь в бой!"
+    },
+    {
+        title: "Дубликатор",
+        text: "Дубликатор — незаменимый инструмент, который доступен на нашем сервере. Обязательно сохраняйте с его помощью все свои постройки. Мы абсолютно уверены, что ваши архитектурные творения будут самыми лучшими!"
+    },
+    {
+        title: "Военная техника",
+        text: "Ну куда же без танков и самолетов? Даже если вы не умеете ими управлять, здесь вы быстро этому научитесь. Выбирайте боевую машину во вкладке энтити и смело идите в бой. В мире игры вы часто будете наблюдать зрелищные битвы между NPC на различной технике. Кстати, мой личный фаворит — самолет P-47D. И небольшой совет: чтобы переключить орудие, находясь внутри танка, просто покрутите колесико мыши."
+    },
+    {
+        title: "Разрушаемые постройки",
+        text: "На нашем сервере можно выдавать здоровье пропам, делая их разрушаемыми. Это открывает огромные возможности: стройте уязвимые базы, бросайте вызов другим игрокам, устраивайте масштабные рейды и наслаждайтесь зрелищем разлетающихся на кусочки укреплений. Если вам не хочется каждый раз использовать инструмент GIVE HP PROPS вручную, включите автоматическую выдачу здоровья при появлении предметов. Для этого откройте меню на клавишу F4, перейдите в раздел «Настройки» и выберите «HP PROPS»."
+    },
+    {
+        title: "Уникальные двери",
+        text: "На нашем сервере вы можете устанавливать потрясающие двери для своих построек. Откройте меню инструментов, найдите вкладку Door и создавайте самые красивые и полностью настраиваемые двери. Это идеальное и стильное решение для защиты вашей базы!"
+    },
+    {
+        title: "Система организаций",
+        text: "На сервере реализована система организаций. Создайте свою уникальную группировку и докажите всем, что она лучшая! Основание собственной организации потребует небольших вложений в виде Points, но это определенно того стоит. А если вы пока не готовы стать лидером, вы всегда можете вступить в ряды уже существующих объединений."
+    },
+    {
+        title: "Возможности организаций",
+        text: "В настройках организации можно включить специальную подсветку союзников, чтобы легко находить своих товарищей на расстоянии. Кроме того, вы можете получить уникальный ранг, созданный главой вашей группировки, или же настроить систему званий самостоятельно, если лидером являетесь вы."
+    },
+    {
+        title: "Магазин PointShop(F2)",
+        text: "Хотите выглядеть стильно и выделяться из толпы? Смело открывайте магазин PointShop нажатием на клавишу F2. Покупайте красивые аксессуары за заработанные поинты и покажите всем, насколько вы уникальны!"
+    },
+    {
+        title: "Автопарк сервера",
+        text: "На нашем сервере представлен огромный выбор уникального транспорта. Вас ждут скоростные гоночные автомобили, тяжелые грузовики и даже вместительные автобусы. Обязательно опробуйте каждый из них, ведь все модели по-своему прекрасны."
+    },
+    {
+        title: "Улучшение транспорта",
+        text: "Кстати о транспорте! Знаете ли вы, что его можно улучшать не только привычными ускорителями из меню инструментов? Попробуйте модифицировать свою технику с помощью специальных энтити. Загляните во вкладку LVS, чтобы найти уникальные модули, которые сделают вашу машину невероятно быстрой."
+    },
+    {
+        title: "Внутриигровое радио",
+        text: "Слышите эту отличную музыку? На сервере работает радио, которое создает потрясающую атмосферу. Хотите включить свои собственные треки, но не знаете как? Откройте справочник в меню на клавишу F4 — там находятся все инструкции и подробности по настройке."
+    },
+    {
+        title: "Справочник F4",
+        text: "Возникли вопросы по механикам сервера? Ответы на любые вопросы можно найти в главном меню, нажав клавишу F4. Просто загляните в раздел «Справочник», где собрана подробная и понятная информация обо всех возможностях нашего проекта."
+    },
+    {
+        title: "Группа в Steam",
+        text: "У нашего проекта есть официальная группа в Steam. В ней уже состоят многие игроки, но не хватает только вас! Обязательно присоединяйтесь к нашему сообществу. Ссылку на группу можно легко найти, открыв меню на клавишу F4 и перейдя во вкладку Steam."
+    }
+];
+// =========================================================================
+
+const _iC=8,_sI=7000,_itE=document.getElementById('it'),_pdE=document.getElementById('pd'),_ssE=document.getElementById('ss'),_tfE=document.getElementById('tf');let _s=[],_cS=0,_sIv,_cBI=-1,_bTT,_iP=false,_sA=false;for(let i=1;i<=_iC;i++){let d=document.createElement('div');d.className='sl';d.style.backgroundImage=`url('img/fon/${i}.jpg')`;if(i===1)d.classList.add('a');_ssE.appendChild(d);_s.push(d);}_cS=0;function _gTS(x){_s[_cS].classList.remove('a');_cS=x;_s[_cS].classList.add('a');}function _nS(){let n;do{n=Math.floor(Math.random()*_s.length);}while(_s.length>1&&n===_cS);_gTS(n);}function _sSS(){_sIv=setInterval(_nS,_sI);}function _stSS(){clearInterval(_sIv);}function _sRB(){let n;do{n=Math.floor(Math.random()*INFO_BLOCKS.length);}while(INFO_BLOCKS.length>1&&n===_cBI);_cBI=n;let b=INFO_BLOCKS[_cBI];_itE.textContent=b.title;_pdE.textContent=b.text;let rM=(b.text.length/_rS)*1000,bAT=Math.max(rM,_mBDT),tDT=bAT+_eTM;_sPB(bAT);_sCB();clearTimeout(_bTT);_bTT=setTimeout(()=>{_oBT();},tDT);}function _sPB(d){_tfE.style.transition='none';_tfE.style.width='100%';void _tfE.offsetWidth;_tfE.style.transition=`width ${d}ms linear`;_tfE.style.width='0%';}function _oBT(){window.speechSynthesis.cancel();_sA=false;clearTimeout(_bTT);_bTT=setTimeout(()=>{_sRB();},_pBB);}function _sCB(){if(!('speechSynthesis' in window)){_sA=false;return;}let b=INFO_BLOCKS[_cBI],u=new SpeechSynthesisUtterance(b.text);u.lang='ru-RU';u.rate=_vR;u.pitch=_vP;u.volume=_vV;let vs=window.speechSynthesis.getVoices();if(vs.length>0){let sV=null;for(let p of _pVN){sV=vs.find(v=>v.name===p);if(sV)break;}if(!sV)sV=vs.find(v=>v.lang.startsWith('ru'));if(sV)u.voice=sV;}u.onstart=()=>{_sA=true;};u.onerror=(e)=>{_sA=false;};window.speechSynthesis.cancel();window.speechSynthesis.speak(u);}let _iMS=false,_cT=0;function _pM(){let m=document.getElementById('bm');m.volume=_mV;if(!_iMS){let rT;do{rT=Math.floor(Math.random()*_mTC)+1;}while(_mTC>1&&rT===_cT);_cT=rT;m.src=`music_fon/${rT}.mp3`;m.load();_iMS=true;m.onended=()=>{_iMS=false;_pM();};}let pP=m.play();if(pP!==undefined)pP.catch(()=>{});}let _sSt=false;function _tAS(){if('speechSynthesis' in window&&!_sSt){_sSt=true;_sCB();}}function _oFI(){if(!_sSt){_sSt=true;_sCB();}_pM();window.removeEventListener('click',_oFI);window.removeEventListener('keydown',_oFI);window.removeEventListener('touchstart',_oFI);}window.addEventListener('load',()=>{_sRB();_tAS();_pM();setTimeout(()=>{if(!('speechSynthesis' in window)||!window.speechSynthesis.speaking){window.addEventListener('click',_oFI);window.addEventListener('keydown',_oFI);window.addEventListener('touchstart',_oFI);}},3000);let iP=document.querySelector('.ip');iP.addEventListener('mouseenter',()=>{_stSS();_iP=true;});iP.addEventListener('mouseleave',()=>{_sSS();_iP=false;});_sSS();});</script></body></html>
