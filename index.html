@@ -379,13 +379,14 @@
             const slide = document.createElement('div');
             slide.className = 'slide';
             slide.style.backgroundImage = `url('img/fon/${i}.jpg')`;
+            // Устанавливаем первый слайд (1.jpg) активным при загрузке
+            if (i === 1) slide.classList.add('active'); 
             slideshow.appendChild(slide);
             slides.push(slide);
         }
         
-        // Устанавливаем случайный первый слайд при загрузке
-        currentSlide = Math.floor(Math.random() * slides.length);
-        slides[currentSlide].classList.add('active');
+        // Начальный индекс всегда 0 (соответствует 1.jpg)
+        currentSlide = 0;
 
         // ========== Функции слайдера ==========
         function goToSlide(index) {
