@@ -22,7 +22,7 @@
             --gold: #d4af37;
             --gold-light: #f0d060;
             --gold-dark: #a8832b;
-            --bg-dark: rgba(0, 0, 0, 0.45);      /* Светлее, чем было */
+            --bg-dark: rgba(0, 0, 0, 0.45);
             --text-light: #f5f0e6;
             --shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
         }
@@ -53,7 +53,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-size: cover;
+            background-size: 100% 100%;
             background-position: center;
             opacity: 0;
             transition: opacity 1.5s ease-in-out;
@@ -94,7 +94,7 @@
 
         .title {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(3rem, 8vw, 7rem);
+            font-size: clamp(2.2rem, 5vw, 4rem);   /* Уменьшено: было 3rem..7rem */
             font-weight: 900;
             color: var(--gold-light);
             text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
@@ -137,33 +137,8 @@
             font-size: 1.25rem;
             line-height: 1.7;
             font-weight: 300;
-            margin-bottom: 2rem;
+            margin-bottom: 0;
             text-align: justify;
-        }
-
-        .speak-button {
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            color: #1a1a1a;
-            border: none;
-            padding: 1rem 2.5rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            font-family: 'Montserrat', sans-serif;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
-            letter-spacing: 0.05em;
-        }
-
-        .speak-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
-            background: linear-gradient(135deg, var(--gold-light), var(--gold));
-        }
-
-        .speak-button:active {
-            transform: translateY(0);
         }
 
         /* ========== Анимации ========== */
@@ -189,13 +164,13 @@
             }
         }
 
-        /* ========== Адаптивность ========== */
+        /* ========== Адаптивность по ширине ========== */
         @media (max-width: 1366px) {
             .content {
                 padding: 3rem 2rem;
             }
             .title {
-                font-size: clamp(2.5rem, 6vw, 5rem);
+                font-size: clamp(2rem, 4.5vw, 3.5rem);   /* Уменьшено */
             }
             .subtitle {
                 font-size: clamp(0.9rem, 2vw, 1.6rem);
@@ -214,7 +189,7 @@
                 padding: 2rem 1rem;
             }
             .title {
-                font-size: 2.8rem;
+                font-size: 2rem;                        /* Уменьшено */
             }
             .subtitle {
                 font-size: 1rem;
@@ -225,6 +200,57 @@
             #project-description {
                 font-size: 0.95rem;
                 text-align: left;
+            }
+        }
+
+        /* ========== Адаптивность по высоте ========== */
+        @media (max-height: 850px) {
+            .content {
+                padding: 2.5rem 2rem;
+            }
+            .title {
+                font-size: clamp(2rem, 5vw, 3.5rem);    /* Уменьшено */
+                margin-bottom: 0.5rem;
+            }
+            .subtitle {
+                font-size: clamp(0.9rem, 2vw, 1.5rem);
+            }
+            .info-panel {
+                padding: 1.8rem 2rem;
+                max-width: 800px;
+            }
+            .info-text h2 {
+                font-size: 1.6rem;
+                margin-bottom: 0.5rem;
+            }
+            #project-description {
+                font-size: 1rem;
+                line-height: 1.5;
+            }
+        }
+
+        @media (max-height: 700px) {
+            .content {
+                padding: 2rem 1.5rem;
+            }
+            .title {
+                font-size: clamp(1.6rem, 4vw, 2.8rem);  /* Уменьшено */
+                margin-bottom: 0.4rem;
+            }
+            .subtitle {
+                font-size: clamp(0.8rem, 1.8vw, 1.2rem);
+                letter-spacing: 0.1em;
+            }
+            .info-panel {
+                padding: 1.2rem 1.5rem;
+            }
+            .info-text h2 {
+                font-size: 1.4rem;
+                margin-bottom: 0.4rem;
+            }
+            #project-description {
+                font-size: 0.9rem;
+                line-height: 1.4;
             }
         }
     </style>
@@ -246,8 +272,8 @@
     <!-- Контент -->
     <main class="content">
         <header class="header">
-            <h1 class="title">Kingly</h1>
-            <p class="subtitle">наше королевство, но вы можете стать нашим королем</p>
+            <h1 class="title">👑 KINGLY 👑</h1>
+            <p class="subtitle">Создано нами, возглавляется вами</p>
         </header>
 
         <section class="info-panel">
@@ -258,17 +284,14 @@
                     Мы объединяем лучшие традиции песочницы с глубокой системой развития и честной игрой.
                     Станьте частью нашего мира, создавайте, торгуйте, воюйте — и, возможно, именно вы займёте трон.
                 </p>
-                <button id="speak-btn" class="speak-button" title="Прослушать описание">
-                    🔊 Озвучить
-                </button>
             </div>
         </section>
     </main>
 
     <script>
         // ========== Настройки ==========
-        const IMAGE_COUNT = 13;
-        const SLIDE_INTERVAL = 7000;
+        const IMAGE_COUNT = 7;           // Количество изображений (1.jpg .. 13.jpg)
+        const SLIDE_INTERVAL = 7000;      // 7 секунд
         const descriptionText = document.getElementById('project-description').innerText;
 
         // ========== Создание слайдов ==========
@@ -332,7 +355,6 @@
         let speechStarted = false;
         function tryAutoSpeak() {
             speakDescription();
-            // Через короткое время проверяем, началась ли речь
             setTimeout(() => {
                 if (window.speechSynthesis.speaking) {
                     speechStarted = true;
@@ -347,7 +369,6 @@
                 speechStarted = true;
             }
             playMusic();
-            // Удаляем обработчики после первого срабатывания
             window.removeEventListener('click', onFirstInteraction);
             window.removeEventListener('keydown', onFirstInteraction);
             window.removeEventListener('touchstart', onFirstInteraction);
@@ -355,11 +376,9 @@
 
         // ========== Инициализация ==========
         window.addEventListener('load', () => {
-            // Попытка автоматического запуска
             tryAutoSpeak();
             playMusic();
 
-            // Если через 3 секунды речь не началась, вешаем обработчики первого взаимодействия
             setTimeout(() => {
                 if (!window.speechSynthesis.speaking) {
                     window.addEventListener('click', onFirstInteraction);
@@ -368,12 +387,10 @@
                 }
             }, 3000);
 
-            // Остановка слайдера при наведении на панель
             const infoPanel = document.querySelector('.info-panel');
             infoPanel.addEventListener('mouseenter', stopSlideShow);
             infoPanel.addEventListener('mouseleave', startSlideShow);
 
-            // Запуск слайдера
             startSlideShow();
         });
     </script>
