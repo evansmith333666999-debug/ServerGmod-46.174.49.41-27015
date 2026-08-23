@@ -379,20 +379,29 @@
             const slide = document.createElement('div');
             slide.className = 'slide';
             slide.style.backgroundImage = `url('img/fon/${i}.jpg')`;
-            if (i === 1) slide.classList.add('active');
             slideshow.appendChild(slide);
             slides.push(slide);
         }
+        
+        // Устанавливаем случайный первый слайд при загрузке
+        currentSlide = Math.floor(Math.random() * slides.length);
+        slides[currentSlide].classList.add('active');
 
         // ========== Функции слайдера ==========
         function goToSlide(index) {
             slides[currentSlide].classList.remove('active');
-            currentSlide = (index + slides.length) % slides.length;
+            currentSlide = index;
             slides[currentSlide].classList.add('active');
         }
 
         function nextSlide() {
-            goToSlide(currentSlide + 1);
+            let nextIndex;
+            // Выбираем случайный слайд, исключая текущий, чтобы картинки не повторялись подряд
+            do {
+                nextIndex = Math.floor(Math.random() * slides.length);
+            } while (slides.length > 1 && nextIndex === currentSlide);
+            
+            goToSlide(nextIndex);
         }
 
         function startSlideShow() {
